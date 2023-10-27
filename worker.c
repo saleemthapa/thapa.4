@@ -51,9 +51,9 @@ int main(int argc, char* argv[]) {
 #include <sys/msg.h>
 #include <stdlib.h>
 #include <time.h>
-
+#include "mytime.h"
 // Initialize the random number generator with the current time
-srand(time(NULL));
+//srand(time(NULL));
 
 // Define the range for time usage (e.g., 1000 to 5000 nanoseconds)
 int minTime = 1000;
@@ -81,7 +81,7 @@ int main(int argc, char* argv[]) {
         perror("worker: Failed to attach to the message queue");
         exit(EXIT_FAILURE);
     }
-
+srand(getCustomTime());
     while (1) {
         // Wait for a message from oss
         struct Message message;
