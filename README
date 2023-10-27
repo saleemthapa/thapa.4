@@ -1,0 +1,42 @@
+README
+Project: Scheduler with Message Queue
+
+Submitted By: Saleem Thapa
+
+Project Description:
+
+This project extends the functionality of a scheduler system by introducing a message queue. 
+The project includes two executables: `oss` and `worker`. 
+The `oss` executable manages worker processes and coordinates their activities through a message queue. 
+The system clock is maintained independently from the main system clock and is shared among the processes.
+Each process is represented by a Process Control Block (PCB) in a process table.
+
+Worker Behavior:
+
+Workers receive two arguments indicating their expected duration.
+They perform iterations by waiting for messages from `oss` and periodically checking the clock.
+Workers send messages back to `oss` based on their checks.
+
+Oss, the Parent Behavior:
+
+`oss` is responsible for launching worker processes based on command-line arguments. It manages the system clock, process table, and message queues. Additionally, `oss` controls the order in which workers access the clock.
+
+Command Line Parameters:
+-n: Total number of children
+-s: Maximum simultaneous children
+-t: Time limit for child processes
+-f: Log file
+
+`oss` outputs information to both the log file and the screen, while worker output is not logged.
+
+Instructions:
+
+Compilation:
+
+Ensure you have GCC (GNU Compiler Collection) installed on your system.
+
+1. Open your terminal and type command :   make clean
+2. To compile the project, run the following command: make
+3. To start with the oss :  ./oss -n 2 -s 3 -t 3 -f logfile.txt
+4. To start with worker : ./worker 5 500000
+
