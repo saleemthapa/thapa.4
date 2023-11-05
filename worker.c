@@ -1,48 +1,3 @@
-/*#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-
-#define MAX_CHILD_PROCESSES 18
-
-// Define the PCB (Process Control Block) structure
-struct PCB {
-    int occupied; // either true or false
-    pid_t pid; // process id of this child
-    int startSeconds; // time when it was created
-    int startNano; // time when it was created
-    int serviceTimeSeconds; // total seconds it has been "scheduled"
-    int serviceTimeNano; // total nanoseconds it has been "scheduled"
-    int eventWaitSec; // when does its event happen?
-    int eventWaitNano; // when does its event happen?
-    int blocked; // is this process waiting on an event?
-};
-
-struct PCB processTable[MAX_CHILD_PROCESSES];
-
-// Function to initialize the PCBs
-void initializePCBs() {
-    int i;
-    for (i = 0; i < MAX_CHILD_PROCESSES; i++) {
-        processTable[i].occupied = 0;
-        // Initialize other PCB fields...
-    }
- printf("PCB intializing");
-}
-
-int main(int argc, char* argv[]) {
-    // Rest of your oss code...
-
-    // Initialize PCBs
-    initializePCBs();
-
-    // Rest of your oss code...
-
-    return 0;
-}
-
-*/
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -51,7 +6,10 @@ int main(int argc, char* argv[]) {
 #include <sys/msg.h>
 #include <stdlib.h>
 #include <time.h>
+#include <sys/msg.h>
 #include "mytime.h"
+// Define the message queue key for communication with worker processes
+#define MESSAGE_QUEUE_KEY 2000
 // Initialize the random number generator with the current time
 //srand(time(NULL));
 
@@ -74,9 +32,9 @@ int main(int argc, char* argv[]) {
     // Initialize any necessary data structures
 
     // Attach to the message queue created by oss
-    key_t key = 1994 /* Specify the same message queue key as in oss.c */;
-    int msgid = msgget(key, 0666);
-
+    key_t key = 2000 /* Specify the same message queue key as in oss.c */;
+    //int msgid = msgget(key, 0666);
+int msgid = msgget(MESSAGE_QUEUE_KEY, 0666);
     if (msgid == -1) {
         perror("worker: Failed to attach to the message queue");
         exit(EXIT_FAILURE);
